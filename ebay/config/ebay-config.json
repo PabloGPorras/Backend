@@ -1,0 +1,15 @@
+{
+    "api.ebay.com": {
+        "devid": "d09476a5-d59c-4213-976b-c3248b02fcc8",
+        "certid": "PRD-b44d58242ed7-231c-42ef-8af7-cb10",
+        "redirecturi": "Pablo_Porras-PabloPor-Sandbo-mtzrotb",
+        "appid": "PabloPor-Sandbox-PRD-1b44d5824-201774f0"
+    },
+    "name": "ebay-config",
+    "api.sandbox.ebay.com": {
+        "devid": "d09476a5-d59c-4213-976b-c3248b02fcc8",
+        "certid": "SBX-b00064e29a2d-29d1-433d-b9f0-9e18",
+        "redirecturi": "Pablo_Porras-PabloPor-Sandbo-aobccppmo",
+        "appid": "PabloPor-Sandbox-SBX-3b00064e2-f7dd2a95"
+    }
+}

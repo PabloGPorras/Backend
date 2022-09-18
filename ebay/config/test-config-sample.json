@@ -1,0 +1,11 @@
+{
+	"name": "test-config",
+	"production-user": {
+		"username": "desert_valley_goods",
+		"password": "@Pablamos1725"
+	},
+	"sandbox-user": {
+		"username": "desert_valley_goods",
+		"password": "@Pablamos1725"
+	}
+}
