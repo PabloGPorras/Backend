@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-$s$a#m!^vo2c238z!%13@6*lcj$uy$(*b%(lg$ic)(gzs4rdo5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','localhost:5000']
+ALLOWED_HOSTS = ['localhost','localhost:5000','http://localhost:5000']
 
 
 # Application definition
@@ -36,6 +36,7 @@ ALLOWED_HOSTS = ['localhost','localhost:5000']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'corsheaders',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -45,12 +46,23 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+"https://domain.com",
+"https://api.domain.com",
+"http://localhost:5000",
+"http://127.0.0.1:9000"
+]
+
+
 
 ROOT_URLCONF = 'config.urls'
 
