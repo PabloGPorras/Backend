@@ -47,7 +47,8 @@ def authAccepted(request):
         data = {
             'user_token':user_token
         }
-        return HttpResponse(data)
+
+        return HttpResponse(user_token)
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
