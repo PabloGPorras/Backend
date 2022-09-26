@@ -36,6 +36,11 @@ def authAccepted(request):
     
     try:
         code = request.GET.get('code')
+        print(f"""
+        _________________________
+        authAccepted code: {code}
+        _________________________
+        """)
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
         credentialu = credentialutil
         credentialu.load(app_config_path)
