@@ -132,7 +132,7 @@ def getOrders(request,user_token):
         credentialu = credentialutil
         credentialu.load(app_config_path)
         credential = credentialu.get_credentials(environment.PRODUCTION)
-        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token, config_file=None)
 
         response = api.execute('GetOrders', {'NumberOfDays': 30})
         print(response.dict())
