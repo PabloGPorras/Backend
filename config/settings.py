@@ -59,7 +59,8 @@ CORS_ALLOWED_ORIGINS = [
 "https://api.domain.com",
 "http://localhost:5000",
 "http://127.0.0.1:9000",
-"https://tea-party-frontend.vercel.app"
+"https://tea-party.vercel.app/",
+"https://tea-party.vercel.app"
 ]
 
 ROOT_URLCONF = 'config.urls'
