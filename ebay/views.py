@@ -46,12 +46,9 @@ def authAccepted(request):
         authAccepted user_token: {user_token}
         _________________________
         """)
-        data = {
-            'user_token':user_token
-        }
 
         #return HttpResponse(user_token)
-        response = redirect(f'https://tea-party.vercel.app/?code={data}')
+        response = redirect(f'https://tea-party.vercel.app/?code={user_token}')
         return response
 
     except ConnectionError as e:
