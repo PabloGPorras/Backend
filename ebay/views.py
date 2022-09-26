@@ -9,6 +9,7 @@ from django.http import JsonResponse
 import datetime
 from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
+from django.shortcuts import redirect
 
 def index(request):
     #EBAY API CONNECTION
@@ -32,6 +33,7 @@ def index(request):
         print(e.response.dict())
 
 def authAccepted(request):
+    
     try:
         code = request.GET.get('code')
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
@@ -48,7 +50,10 @@ def authAccepted(request):
             'user_token':user_token
         }
 
-        return HttpResponse(user_token)
+        #return HttpResponse(user_token)
+        response = redirect(f'https://tea-party.vercel.app/?code={user_token}')
+        return response
+
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
