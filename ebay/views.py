@@ -52,7 +52,7 @@ def authAccepted(request):
 
         #Query String Example: ?strID=XXXX&strName=yyyy&strDate=zzzzz
 
-        response = redirect(f"https://tea-party.vercel.app?access_token={user_token.access_token}&expires_in={user_token.token_expiry}&refresh_token={user_token.refresh_token}&refresh_token_expire_in={user_token.refresh_token_expiry}")
+        response = redirect(f"https://tea-party.vercel.app?accessToken={user_token.access_token}&expiresIn={user_token.token_expiry}&refreshToken={user_token.refresh_token}&refreshTokenExpireIn={user_token.refresh_token_expiry}")
         return response
 
     except ConnectionError as e:
