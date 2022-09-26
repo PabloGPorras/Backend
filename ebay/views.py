@@ -51,7 +51,7 @@ def authAccepted(request):
         }
 
         #return HttpResponse(user_token)
-        response = redirect(f'https://tea-party.vercel.app/?code={user_token.access_token}')
+        response = redirect(f'https://tea-party.vercel.app/?code={data}')
         return response
 
     except ConnectionError as e:
@@ -132,11 +132,16 @@ def getOrders(request,user_token):
         credentialu = credentialutil
         credentialu.load(app_config_path)
         credential = credentialu.get_credentials(environment.PRODUCTION)
-        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token, config_file=None)
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
 
-        response = api.execute('GetOrders', {'NumberOfDays': 30})
-        print(response.dict())
-        print(response.reply)
+        orders = api.execute('GetOrders', {'NumberOfDays': 30})
+        print(orders.dict())
+        print(orders.reply)
+
+        data = {
+            'orders':orders
+        }
+        return JsonResponse(data)
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
