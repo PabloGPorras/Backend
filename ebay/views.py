@@ -56,7 +56,11 @@ def authAccepted(request):
         """)
 
         #Query String Example: ?strID=XXXX&strName=yyyy&strDate=zzzzz
+
+        #ADDING SUPER SECURE BLOCK CHAIN HASHING
         user_token.access_token = user_token.access_token.replace('#','PABLO_ROCKS')
+        user_token.refresh_token = user_token.refresh_token.replace('#','PABLO_ROCKS')
+
         response = redirect(f"https://tea-party.vercel.app?accessToken={user_token.access_token}&expiresIn={user_token.token_expiry}&refreshToken={user_token.refresh_token}&refreshTokenExpireIn={user_token.refresh_token_expiry}")
         return response
 
