@@ -41,33 +41,35 @@ def authAccepted(request):
         authAccepted code: {code}
         _________________________
         """)
+        #Query String Example: ?strID=XXXX&strName=yyyy&strDate=zzzzz
+        response = redirect(f"https://tea-party.vercel.app?code={code}")
+        return response
+    except ConnectionError as e:
+        print(e)
+        print(e.response.dict())
+
+def getOrders(request,code):
+    try:
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
         credentialu = credentialutil
         credentialu.load(app_config_path)
         oauth2api_inst = oauth2api()
         user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
-        print(f"""
-        _________________________
-        authAccepted user_token: {user_token.access_token}
-        authAccepted token_expiry: {user_token.token_expiry}
-        authAccepted refresh_token: {user_token.refresh_token}
-        authAccepted refresh_token_expiry: {user_token.refresh_token_expiry}
-        _________________________
-        """)
 
-        #Query String Example: ?strID=XXXX&strName=yyyy&strDate=zzzzz
+        credential = credentialu.get_credentials(environment.PRODUCTION)
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
 
-        #ADDING SUPER SECURE BLOCK CHAIN HASHING
-        user_token.access_token = user_token.access_token.replace('#','PABLO_ROCKS')
-        user_token.refresh_token = user_token.refresh_token.replace('#','PABLO_ROCKS')
+        orders = api.execute('GetOrders', {'NumberOfDays': 30})
+        print(orders.dict())
+        print(orders.reply)
 
-        response = redirect(f"https://tea-party.vercel.app?accessToken={user_token.access_token}&expiresIn={user_token.token_expiry}&refreshToken={user_token.refresh_token}&refreshTokenExpireIn={user_token.refresh_token_expiry}")
-        return response
-
+        data = {
+            'orders':orders
+        }
+        return JsonResponse(data)
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
-
 
 def authDeclined(request):
     try:
@@ -136,25 +138,7 @@ def getMemberMessages(request,user_token):
         print(e.response.dict())
 
 
-def getOrders(request,user_token):
-    try:
-        app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
-        credentialu = credentialutil
-        credentialu.load(app_config_path)
-        credential = credentialu.get_credentials(environment.PRODUCTION)
-        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
 
-        orders = api.execute('GetOrders', {'NumberOfDays': 30})
-        print(orders.dict())
-        print(orders.reply)
-
-        data = {
-            'orders':orders
-        }
-        return JsonResponse(data)
-    except ConnectionError as e:
-        print(e)
-        print(e.response.dict())
             
         
 
