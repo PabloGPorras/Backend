@@ -64,19 +64,22 @@ def authAccepted(request):
 
 def getOrders(request):
     try:
-        access_token = request.GET.get('access_token')
+        code = request.GET.get('code')
         print(f"""
         _________________________
         getOrders request: {request}
-        getOrders access_token: {access_token}
+        getOrders access_token: {code}
         _________________________    
         """)
-        app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
-        credentialu = credentialutil
-        credentialu.load(app_config_path)
         try:
+            app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
+            credentialu = credentialutil
+            credentialu.load(app_config_path)
+            oauth2api_inst = oauth2api()
+            user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
+
             credential = credentialu.get_credentials(environment.PRODUCTION)
-            api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
+            api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
             orders = api.execute('GetOrders', {'NumberOfDays': 30})
             print(f"""
             _________________________
