@@ -62,12 +62,20 @@ def authAccepted(request):
 
         #getUser
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
-        print(api.execute("GetUser", {}))
-
+        getUser = api.execute("GetUser", {}))
+        print(f"""
+        _________________________
+        getUser: {getUser}
+        _________________________
+        """
         #getOrders
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
-        print(api.execute("GetOrders", {"NumberOfDays": 30}))
-
+        getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
+        print(f"""
+        _________________________
+        getOrders: {getOrders}
+        _________________________
+        """
         return response
     except ConnectionError as e:
         print(e)
