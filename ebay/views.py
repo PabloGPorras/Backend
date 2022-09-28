@@ -93,13 +93,13 @@ def getOrders(request,code,NumberOfDays):
             orders = api.execute('GetOrders', {'NumberOfDays': NumberOfDays})
             print(f"getOrders orders.dict(): {orders.dict()}")
             order_data = orders.dict()
+            return JsonResponse(order_data)
         except:
             order_data = "COULD NOT RETREIVE ORDERS"
-        print(f"getOrders order_data: {order_data}")
-        data = {
-            'orders':order_data
-        }
-        return JsonResponse(data)
+            data = {
+                'orders':order_data
+            }
+            return JsonResponse(data)        
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
