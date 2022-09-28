@@ -39,13 +39,14 @@ class oauth2api(object):
             env_type = environment.SANDBOX or environment.PRODUCTION
             scopes = list of strings
         '''
-        print(f"""
+
+        """
         _________________________
         generate_user_authorization_url env_type: {env_type.config_id}
         _________________________
         generate_user_authorization_url scopes: {scopes}
         _________________________
-        """)
+        """
 
         credential = credentialutil_inst.get_credentials(env_type)   
         
@@ -104,7 +105,7 @@ class oauth2api(object):
             
         content = json.loads(resp.content)
         token = oAuth_token()     
-        print(f"""
+        """
         _________________________
         exchange_code_for_access_token
         _________________________
@@ -126,7 +127,7 @@ class oauth2api(object):
         _________________________
         code: {code}
         _________________________
-        """)        
+        """    
         if resp.status_code == requests.codes.ok:
             token.access_token = content['access_token']
             token.token_expiry = datetime.utcnow()+timedelta(seconds=int(content['expires_in']))-timedelta(minutes=5)

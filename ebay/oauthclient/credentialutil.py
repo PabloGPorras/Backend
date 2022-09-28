@@ -35,22 +35,22 @@ class credentialutil(object):
         with open(app_config_path, 'r') as f:
             if app_config_path.endswith('.json'):
                 content = json.loads(f.read())
-                print(f"""
+                """
                 _________________________
                 app_config_path: {app_config_path}
                 _________________________
                 load content: {content}
-                """)
+                """
             else:
                 raise ValueError('Configuration file need to be in JSON')
             credentialutil._iterate(content)
 
     @classmethod
     def _iterate(cls, content):
-        print(f"""
+        """
         _________________________
         _iterate content: {content}
-        """)
+        """
         for key in content:
             logging.debug("Environment attempted: %s", key)
 
@@ -62,7 +62,7 @@ class credentialutil(object):
 
                 app_info = credentials(client_id, client_secret, dev_id, ru_name)
                 cls._credential_list.update({key: app_info})
-                print(f"""
+                """
                 _________________________
                 key: {key}
                 _________________________
@@ -77,7 +77,7 @@ class credentialutil(object):
                 app_info: {app_info}
                 _________________________
                 _iterate cls._credential_list: {str(cls._credential_list)}
-                """)
+                """
 
             
 
@@ -86,7 +86,7 @@ class credentialutil(object):
         """
         env_config_id: environment.PRODUCTION.config_id or environment.SANDBOX.config_id
         """
-        print(f"""
+        """
         _________________________
         get_credentials cls._credential_list: {cls._credential_list}
         _________________________
@@ -94,7 +94,7 @@ class credentialutil(object):
         _________________________
         get_credentials cls._credential_list[env_type.config_id]:
         _________________________
-        """)
+        """
 
         if len(cls._credential_list) == 0:
             msg = "No environment loaded from configuration file"
