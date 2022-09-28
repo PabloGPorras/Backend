@@ -52,11 +52,7 @@ def authAccepted(request):
         print(f"""
         _________________________
         authAccepted user_token: {user_token}
-        authAccepted user_token.access_token: {user_token.access_token}
-        authAccepted user_token.refresh_token: {user_token.refresh_token}
-        authAccepted user_token.token_expiry: {user_token.token_expiry}
-        authAccepted user_token.refresh_token_expiry: {user_token.refresh_token_expiry}
-
+        authAccepted user_token.access_token: {user_token.access_token[1:10]}
         _________________________
         """)        
         code = user_token.access_token.replace("#","PABLO_ROCKS")
@@ -77,7 +73,7 @@ def getOrders(request,access_token,NumberOfDays):
             credentialu = credentialutil
             credentialu.load(app_config_path)
             credential = credentialu.get_credentials(environment.PRODUCTION)
-            print(f"getOrders access_token: {access_token}")
+            print(f"getOrders access_token: {access_token[1:10]}")
             api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
             response = api.execute("GetOrders", {"NumberOfDays": NumberOfDays})
             print(f"getOrders response.dict(): {response.dict()}")
@@ -108,7 +104,7 @@ def getUser(request,access_token):
             credentialu = credentialutil
             credentialu.load(app_config_path)
             credential = credentialu.get_credentials(environment.PRODUCTION)
-            print(f"getUser access_token: {access_token}")
+            print(f"getUser access_token: {access_token[1:10]}")
             api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
             
             response = api.execute("GetUser", {})
@@ -135,7 +131,7 @@ def getMemberMessages(request,access_token):
         credentialu = credentialutil
         credentialu.load(app_config_path)
         credential = credentialu.get_credentials(environment.PRODUCTION)
-        print(f"getUser access_token: {access_token}")
+        print(f"getUser access_token: {access_token[1:10]}")
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
 
         now = datetime.datetime.now()
