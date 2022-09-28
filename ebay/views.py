@@ -46,6 +46,7 @@ def authAccepted(request):
         app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
         credentialu = credentialutil
         credentialu.load(app_config_path)
+        credential = credentialu.get_credentials(environment.PRODUCTION)
         oauth2api_inst = oauth2api()
         user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
         #Query String Example: ?strID=XXXX&strName=yyyy&strDate=zzzzz
@@ -58,6 +59,15 @@ def authAccepted(request):
         code = user_token.access_token.replace("#","PABLO_ROCKS")
         code = code.replace("/","ANA_ROCKS")
         response = redirect(f"https://tea-party.vercel.app?code={code}")
+
+        #getUser
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
+        print(api.execute("GetUser", {}))
+
+        #getOrders
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
+        print(api.execute("GetOrders", {"NumberOfDays": 30}))
+
         return response
     except ConnectionError as e:
         print(e)
