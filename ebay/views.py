@@ -54,29 +54,31 @@ def authAccepted(request):
 
 def getOrders(request):
     try:
-        access_token = request.GET.get('code')
+        access_token = request.GET.get('access_token')
         print(f"""
         _________________________
         getOrders request: {request}
-        getOrders code: {access_token}
+        getOrders access_token: {access_token}
         _________________________    
         """)
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
         credentialu = credentialutil
         credentialu.load(app_config_path)
-        oauth2api_inst = oauth2api()
         try:
-            #user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
             credential = credentialu.get_credentials(environment.PRODUCTION)
             api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
-
             orders = api.execute('GetOrders', {'NumberOfDays': 30})
-            print(orders.dict())
-            print(orders.reply)
+            print(f"""
+            _________________________
+            getOrders orders.dict(): {orders.dict()}
+            getOrders orders.reply: {orders.reply}
+            _________________________    
+            """)
+            order_data = orders.reply
         except:
-            orders = "COULD NOT RETREIVE ORDERS"
+            order_data = "COULD NOT RETREIVE ORDERS"
         data = {
-            'orders':orders
+            'orders':order_data
         }
         return JsonResponse(data)
     except ConnectionError as e:
