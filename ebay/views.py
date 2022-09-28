@@ -47,8 +47,9 @@ def authAccepted(request):
         print(e)
         print(e.response.dict())
 
-def getOrders(request,code):
+def getOrders(request):
     try:
+        code = request.GET.get('code')
         print(f"""
         _________________________
         getOrders request: {request}

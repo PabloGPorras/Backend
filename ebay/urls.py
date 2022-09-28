@@ -8,5 +8,5 @@ urlpatterns = [
     path('authDeclined/', views.authDeclined, name='authDeclined'),
     path('<str:user_token>/getUser/', views.getUser, name='getUser'),
     path('<str:user_token>/getMemberMessages/', views.getMemberMessages, name='getMemberMessages'),
-    path('<slug:code>/getOrders/', views.getOrders, name='getOrders'),
+    path('getOrders/', views.getOrders, name='getOrders'),
 ]
