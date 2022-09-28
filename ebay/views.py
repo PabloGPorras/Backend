@@ -66,7 +66,7 @@ def authAccepted(request):
 
         print(f"""
         _________________________
-        getUser: {getUser}
+        getUser: {getUser.reply}
         _________________________
         """)
         #getOrders
@@ -74,7 +74,7 @@ def authAccepted(request):
         getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
         print(f"""
         _________________________
-        getOrders: {getOrders}
+        getOrders: {getOrders.reply}
         _________________________
         """)
         return response
