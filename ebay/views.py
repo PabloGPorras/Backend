@@ -78,13 +78,11 @@ def getOrders(request,access_token,NumberOfDays):
             api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
             orders = api.execute('GetOrders', {'NumberOfDays': NumberOfDays})
             print(f"getOrders orders.dict(): {orders.dict()}")
-            order_data = orders.dict()
-            return JsonResponse(order_data)
+            data = {'userData':str(orders.dict())}
+            return JsonResponse(data)
         except:
             order_data = "COULD NOT RETREIVE ORDERS"
-            data = {
-                'orders':order_data
-            }
+            data = {'orders':order_data}
             return JsonResponse(data)        
     except ConnectionError as e:
         print(e)
@@ -112,9 +110,7 @@ def getUser(request,access_token):
         
         response = api.execute('GetUser', {})
         print(f"getUser response.dict(): {response.dict()}")
-        data = {
-            'orders':response.dict()
-        }
+        data = {'userData':str(response.dict())}
         return JsonResponse(data)
     except ConnectionError as e:
         print(e)
