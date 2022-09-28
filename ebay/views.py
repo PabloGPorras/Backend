@@ -64,43 +64,43 @@ def authAccepted(request):
         print(e.response.dict())
 
 def getOrders(request,code,NumberOfDays):
-    try:
-        #code = request.GET.get('code')'
+    #try:
+    #code = request.GET.get('code')'
 
+    print(f"""
+    _________________________
+    getOrders request: {request}
+    getOrders code_hashed: {code}    
+    """)
+    code = code.replace('PABLO_ROCKS','#')
+    print(f"""
+    getOrders code_unhashed: {code}   
+    _________________________ 
+    """)
+    try:
+        app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
+        credentialu = credentialutil
+        credentialu.load(app_config_path)
+        oauth2api_inst = oauth2api()
+        user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
         print(f"""
         _________________________
-        getOrders request: {request}
-        getOrders code_hashed: {code}    
+        getOrders user_token: {user_token}
+        _________________________    
         """)
-        code = code.replace('PABLO_ROCKS','#')
+        credential = credentialu.get_credentials(environment.PRODUCTION)
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
+        orders = api.execute('GetOrders', {'NumberOfDays': NumberOfDays})
         print(f"""
-        getOrders code_unhashed: {code}   
-        _________________________ 
+        _________________________'
+        getOrders orders: {orders}
+        getOrders orders.dict(): {orders.dict()}
+        getOrders orders.reply: {orders.reply}
+        _________________________    
         """)
-        try:
-            app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
-            credentialu = credentialutil
-            credentialu.load(app_config_path)
-            oauth2api_inst = oauth2api()
-            user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
-            print(f"""
-            _________________________
-            getOrders user_token: {user_token}
-            _________________________    
-            """)
-            credential = credentialu.get_credentials(environment.PRODUCTION)
-            api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
-            orders = api.execute('GetOrders', {'NumberOfDays': NumberOfDays})
-            print(f"""
-            _________________________'
-            getOrders orders: {orders}
-            getOrders orders.dict(): {orders.dict()}
-            getOrders orders.reply: {orders.reply}
-            _________________________    
-            """)
-            order_data = orders.reply
-        except:
-            order_data = "COULD NOT RETREIVE ORDERS"
+        order_data = orders.reply
+        #except:
+        #    order_data = "COULD NOT RETREIVE ORDERS"
         print(f"""
         _________________________'
         getOrders order_data: {order_data}
