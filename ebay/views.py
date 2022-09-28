@@ -94,11 +94,9 @@ def getOrders(request,code,NumberOfDays):
             print(f"""
             _________________________'
             getOrders orders: {orders}
-            getOrders orders.dict(): {orders.dict()}
-            getOrders orders.reply: {orders.reply}
             _________________________    
             """)
-            order_data = orders.reply
+            order_data = orders
         except:
             order_data = "COULD NOT RETREIVE ORDERS"
         print(f"""
