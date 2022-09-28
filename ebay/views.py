@@ -63,33 +63,16 @@ def authAccepted(request):
         print(e)
         print(e.response.dict())
 
-def getOrders(request,code,NumberOfDays):
+def getOrders(request,access_token,NumberOfDays):
     try:
-        #code = request.GET.get('code')'
-
-        print(f"""
-        _________________________
-        getOrders request: {request}
-        getOrders code_hashed: {code}    
-        """)
-        code = code.replace('PABLO_ROCKS','#')
-        print(f"""
-        getOrders code_unhashed: {code}   
-        _________________________ 
-        """)
         try:
+            access_token = access_token.replace('PABLO_ROCKS','#')
             app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
             credentialu = credentialutil
             credentialu.load(app_config_path)
-            oauth2api_inst = oauth2api()
-            user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
-            print(f"""
-            _________________________
-            getOrders user_token: {user_token}
-            _________________________    
-            """)
             credential = credentialu.get_credentials(environment.PRODUCTION)
-            api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
+            print(f"getOrders access_token: {access_token}")
+            api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
             orders = api.execute('GetOrders', {'NumberOfDays': NumberOfDays})
             print(f"getOrders orders.dict(): {orders.dict()}")
             order_data = orders.dict()
@@ -113,18 +96,15 @@ def authDeclined(request):
 
 
 
-def getUser(request,code):
+def getUser(request,access_token):
     try:
-        print(f"getUser code: {code}")
-        oauth2api_inst = oauth2api()
-        
+        access_token = access_token.replace('PABLO_ROCKS','#')
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
         credentialu = credentialutil
         credentialu.load(app_config_path)
         credential = credentialu.get_credentials(environment.PRODUCTION)
-        user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
-        print(f"getUser user_token: {user_token}")
-        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
+        print(f"getUser access_token: {access_token}")
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
         
         response = api.execute('GetUser', {})
         print(f"getUser response.dict(): {response.dict()}")
@@ -138,13 +118,15 @@ def getUser(request,code):
         
 
         #GET MEMBER MESSAGES
-def getMemberMessages(request,user_token):
+def getMemberMessages(request,access_token):
     try:
+        access_token = access_token.replace('PABLO_ROCKS','#')
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
         credentialu = credentialutil
         credentialu.load(app_config_path)
         credential = credentialu.get_credentials(environment.PRODUCTION)
-        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
+        print(f"getUser access_token: {access_token}")
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
 
         now = datetime.datetime.now()
 
@@ -161,7 +143,7 @@ def getMemberMessages(request,user_token):
         }
 
         response = api.execute('GetMemberMessages', memberData)
-
+        
         print(response.dict())
         print(response.reply)
 
