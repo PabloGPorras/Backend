@@ -10,21 +10,23 @@ import datetime
 from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
 from django.shortcuts import redirect
+import json
+
 
 def index(request):
     #EBAY API CONNECTION
     try:
-        print('HELLO MATE')
+        print("HELLO MATE")
         app_scopes = ["https://api.ebay.com/oauth/api_scope", "https://api.ebay.com/oauth/api_scope/sell.inventory", "https://api.ebay.com/oauth/api_scope/sell.marketing", "https://api.ebay.com/oauth/api_scope/sell.account", "https://api.ebay.com/oauth/api_scope/sell.fulfillment"]
 
-        app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
+        app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
         credentialutil_inst = credentialutil
         credentialutil_inst.load(app_config_path)
         oauth2api_inst = oauth2api()
         signin_url = oauth2api_inst.generate_user_authorization_url(credentialutil_inst,environment.PRODUCTION, app_scopes)
-        print(f'\n *** test_get_signin_url ***: \n{signin_url}')
+        print(f"\n *** test_get_signin_url ***: \n{signin_url}")
         data = {
-            'signin_url':signin_url
+            "signin_url":signin_url
         }
         return JsonResponse(data)
         
@@ -34,13 +36,13 @@ def index(request):
 
 def authAccepted(request):
     try:
-        code = request.GET.get('code')
+        code = request.GET.get("code")
         print(f"""
         _________________________
         authAccepted code: {code}
         _________________________
         """)
-        app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
+        app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
         credentialu = credentialutil
         credentialu.load(app_config_path)
         oauth2api_inst = oauth2api()
@@ -56,8 +58,8 @@ def authAccepted(request):
 
         _________________________
         """)        
-        code = user_token.access_token.replace('#','PABLO_ROCKS')
-        code = code.replace('/','ANA_ROCKS')
+        code = user_token.access_token.replace("#","PABLO_ROCKS")
+        code = code.replace("/","ANA_ROCKS")
         response = redirect(f"https://tea-party.vercel.app?code={code}")
         return response
     except ConnectionError as e:
@@ -67,28 +69,30 @@ def authAccepted(request):
 def getOrders(request,access_token,NumberOfDays):
     try:
         try:
-            access_token = access_token.replace('PABLO_ROCKS','#')
-            access_token = access_token.replace('ANA_ROCKS','/')
+            access_token = access_token.replace("PABLO_ROCKS","#")
+            access_token = access_token.replace("ANA_ROCKS","/")
 
-            app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
+            app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
             credentialu = credentialutil
             credentialu.load(app_config_path)
             credential = credentialu.get_credentials(environment.PRODUCTION)
             print(f"getOrders access_token: {access_token}")
             api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
-            orders = api.execute('GetOrders', {'NumberOfDays': NumberOfDays})
+            orders = api.execute("GetOrders", {"NumberOfDays": NumberOfDays})
             print(f"getOrders orders.dict(): {orders.dict()}")
+            print(f"getOrders orders: {orders}")
+            print(f"getOrders orders.json(): {orders.json()}")
 
-            return HttpResponse(str(orders.dict()))
+            return JsonResponse({str(orders.dict())})
         except:
-            return JsonResponse({'orders': "COULD NOT RETREIVE ORDERS"})
+            return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
 
 def authDeclined(request):
     try:
-        'placeholder'
+        "placeholder"
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
@@ -98,22 +102,22 @@ def authDeclined(request):
 def getUser(request,access_token):
     try:
         try:
-            access_token = access_token.replace('PABLO_ROCKS','#')
-            access_token = access_token.replace('ANA_ROCKS','/')
-            app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
+            access_token = access_token.replace("PABLO_ROCKS","#")
+            access_token = access_token.replace("ANA_ROCKS","/")
+            app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
             credentialu = credentialutil
             credentialu.load(app_config_path)
             credential = credentialu.get_credentials(environment.PRODUCTION)
             print(f"getUser access_token: {access_token}")
             api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
             
-            response = api.execute('GetUser', {})
+            response = api.execute("GetUser", {})
             print(f"getUser response.dict(): {response.dict()}")
 
-            data = {'userData':str(response.dict())}
+            data = {"userData":str(response.dict())}
             return JsonResponse(data)
         except:
-            data = {'userData':"UNABLE TO FETCH USER DATA"}
+            data = {"userData":"UNABLE TO FETCH USER DATA"}
             return JsonResponse(data)
     except ConnectionError as e:
         print(e)
@@ -123,9 +127,9 @@ def getUser(request,access_token):
         #GET MEMBER MESSAGES
 def getMemberMessages(request,access_token):
     try:
-        access_token = access_token.replace('PABLO_ROCKS','#')
-        access_token = access_token.replace('ANA_ROCKS','/')
-        app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
+        access_token = access_token.replace("PABLO_ROCKS","#")
+        access_token = access_token.replace("ANA_ROCKS","/")
+        app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
         credentialu = credentialutil
         credentialu.load(app_config_path)
         credential = credentialu.get_credentials(environment.PRODUCTION)
@@ -146,12 +150,12 @@ def getMemberMessages(request,access_token):
             }
         }
 
-        response = api.execute('GetMemberMessages', memberData)
+        response = api.execute("GetMemberMessages", memberData)
         
         print(response.dict())
         print(response.reply)
 
-        if api.response.reply.has_key('MemberMessage'):
+        if api.response.reply.has_key("MemberMessage"):
             messages = api.response.reply.MemberMessage.MemberMessageExchange
 
             if type(messages) != list:
@@ -180,12 +184,12 @@ def mongoDb(request):
     #MONGO DB CONNECTION
     try:
         from pymongo import MongoClient
-        username='ebay-django-db'
-        password = 'E8KiR0WoJ8IACyKe'
-        connect_string  =f'mongodb+srv://{username}:{password}@cluster0.cly8mna.mongodb.net/?retryWrites=true&w=majority'
+        username="ebay-django-db"
+        password = "E8KiR0WoJ8IACyKe"
+        connect_string  =f"mongodb+srv://{username}:{password}@cluster0.cly8mna.mongodb.net/?retryWrites=true&w=majority"
         my_client = MongoClient(connect_string)
         # First define the database name
-        dbname = my_client['ebay']
+        dbname = my_client["ebay"]
         # Now get/create collection name (remember that you will see the database in your mongodb cluster only after you create a collection)
         collection_name = dbname["ebayitems"]
     except:

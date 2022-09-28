@@ -1,3 +1,1 @@
-{
-    "data": "{'Timestamp': '2022-09-28T20:25:00.073Z', 'Ack': 'Success', 'Version': '1267', 'Build': 'E1267_CORE_APIXO_19220561_R1', 'HardExpirationWarning': '2022-09-29 05:24:59', 'PaginationResult': {'TotalNumberOfPages': '0', 'TotalNumberOfEntries': '0'}, 'HasMoreOrders': 'false', 'OrderArray': None, 'OrdersPerPage': '100', 'PageNumber': '1', 'ReturnedOrderCountActual': '0'}"
-}
+{"Timestamp": "2022-09-28T20:15:20.167Z", "Ack": "Success", "Version": "1267", "Build": "E1267_CORE_APIXO_19220561_R1", "HardExpirationWarning": "2022-09-29 05:15:19", "PaginationResult": {"TotalNumberOfPages": "0", "TotalNumberOfEntries": "0"}, "HasMoreOrders": "false", "OrderArray": None, "OrdersPerPage": "100", "PageNumber": "1", "ReturnedOrderCountActual": "0"}
