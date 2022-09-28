@@ -123,8 +123,10 @@ def authDeclined(request):
 
 
 
-def getUser(request,user_token):
+def getUser(request,code):
     try:
+        oauth2api_inst = oauth2api()
+        user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
         credentialu = credentialutil
         credentialu.load(app_config_path)
@@ -134,6 +136,7 @@ def getUser(request,user_token):
         response = api.execute('GetUser', {})
         print(response.dict())
         print(response.reply)
+        return JsonResponse(response.reply)
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
