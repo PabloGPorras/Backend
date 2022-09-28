@@ -115,6 +115,7 @@ def authDeclined(request):
 
 def getUser(request,code):
     try:
+        print(f"getUser code: {code}")
         oauth2api_inst = oauth2api()
         
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
@@ -122,9 +123,11 @@ def getUser(request,code):
         credentialu.load(app_config_path)
         credential = credentialu.get_credentials(environment.PRODUCTION)
         user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
+        print(f"getUser user_token: {user_token}")
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         
         response = api.execute('GetUser', {})
+        print(f"getUser response.dict(): {response.dict()}")
         data = {
             'orders':response.dict()
         }
