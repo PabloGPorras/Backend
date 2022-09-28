@@ -76,6 +76,7 @@ def getOrders(request,access_token,NumberOfDays):
         print(f"getOrders access_token: {access_token[1:10]}")
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
         response = api.execute("GetOrders", {"NumberOfDays": NumberOfDays})
+        return HttpResponse(response)
         print(f"getOrders response.dict(): {response.dict()}")
         orders = str(response.reply)
         print(f"getOrders orders: {orders}")
@@ -106,8 +107,9 @@ def getUser(request,access_token):
         credential = credentialu.get_credentials(environment.PRODUCTION)
         print(f"getUser access_token: {access_token[1:10]}")
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
-        
         response = api.execute("GetUser", {})
+        return HttpResponse(response)
+
         print(f"getUser response.dict(): {response.dict()}")
         userData = str(response.dict())
         print(f"getUser userData: {userData}")
@@ -115,7 +117,7 @@ def getUser(request,access_token):
         data = {"userData":f"{userData}"}
         #except:
             #data = {"userData":"UNABLE TO FETCH USER DATA"}
-        return JsonResponse(data)
+        
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
