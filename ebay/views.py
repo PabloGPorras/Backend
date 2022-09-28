@@ -56,7 +56,7 @@ def authAccepted(request):
 
         _________________________
         """)        
-        code = code.replace('#','PABLO_ROCKS')
+        code = user_token.access_token.replace('#','PABLO_ROCKS')
         response = redirect(f"https://tea-party.vercel.app?code={code}")
         return response
     except ConnectionError as e:
