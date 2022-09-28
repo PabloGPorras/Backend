@@ -1,3 +1,4 @@
+from urllib import response
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
@@ -78,11 +79,11 @@ def getOrders(request,access_token,NumberOfDays):
             credential = credentialu.get_credentials(environment.PRODUCTION)
             print(f"getOrders access_token: {access_token}")
             api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
-            orders = api.execute("GetOrders", {"NumberOfDays": NumberOfDays})
-            print(f"getOrders orders.dict(): {orders.dict()}")
+            response = api.execute("GetOrders", {"NumberOfDays": NumberOfDays})
+            print(f"getOrders response.dict(): {response.dict()}")
+            orders = str(response.reply)
             print(f"getOrders orders: {orders}")
-
-            return JsonResponse({str(orders)})
+            return JsonResponse({"orders": f"{orders}"})      
         except:
             return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
     except ConnectionError as e:
@@ -112,8 +113,10 @@ def getUser(request,access_token):
             
             response = api.execute("GetUser", {})
             print(f"getUser response.dict(): {response.dict()}")
+            userData = str(response.dict())
+            print(f"getUser userData: {userData}")
 
-            data = {"userData":str(response.dict())}
+            data = {"userData":f"{userData}"}
             return JsonResponse(data)
         except:
             data = {"userData":"UNABLE TO FETCH USER DATA"}
