@@ -63,7 +63,7 @@ def authAccepted(request):
         print(e)
         print(e.response.dict())
 
-def getOrders(request,code):
+def getOrders(request,code,NumberOfDays):
     try:
         #code = request.GET.get('code')'
 
@@ -90,7 +90,7 @@ def getOrders(request,code):
             """)
             credential = credentialu.get_credentials(environment.PRODUCTION)
             api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
-            orders = api.execute('GetOrders', {'NumberOfDays': 200})
+            orders = api.execute('GetOrders', {'NumberOfDays': NumberOfDays})
             print(f"""
             _________________________'
             getOrders orders: {orders}
@@ -101,6 +101,11 @@ def getOrders(request,code):
             order_data = orders.reply
         except:
             order_data = "COULD NOT RETREIVE ORDERS"
+        print(f"""
+        _________________________'
+        getOrders order_data: {order_data}
+        _________________________    
+        """)
         data = {
             'orders':order_data
         }
