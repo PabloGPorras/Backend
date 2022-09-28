@@ -63,9 +63,10 @@ def authAccepted(request):
         print(e)
         print(e.response.dict())
 
-def getOrders(request):
+def getOrders(request,code):
     try:
-        code = request.GET.get('code')
+        #code = request.GET.get('code')'
+
         print(f"""
         _________________________
         getOrders request: {request}
@@ -85,7 +86,7 @@ def getOrders(request):
 
             credential = credentialu.get_credentials(environment.PRODUCTION)
             api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
-            orders = api.execute('GetOrders', {'NumberOfDays': 30})
+            orders = api.execute('GetOrders', {'NumberOfDays': 200})
             print(f"""
             _________________________
             getOrders orders.dict(): {orders.dict()}
