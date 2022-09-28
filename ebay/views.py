@@ -66,7 +66,7 @@ def authAccepted(request):
 
         print(f"""
         _________________________
-        getUser: {getUser.reply}
+        authAccepted getUser: {getUser.reply}
         _________________________
         """)
         #getOrders
@@ -74,7 +74,7 @@ def authAccepted(request):
         getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
         print(f"""
         _________________________
-        getOrders: {getOrders.reply}
+        authAccepted getOrders: {getOrders.reply}
         _________________________
         """)
         return response
@@ -84,24 +84,28 @@ def authAccepted(request):
 
 def getOrders(request,access_token,NumberOfDays):
     try:
-        #try:
-        access_token = access_token.replace("PABLO_ROCKS","#")
-        access_token = access_token.replace("ANA_ROCKS","/")
+        try:
+            access_token = access_token.replace("PABLO_ROCKS","#")
+            access_token = access_token.replace("ANA_ROCKS","/")
 
-        app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
-        credentialu = credentialutil
-        credentialu.load(app_config_path)
-        credential = credentialu.get_credentials(environment.PRODUCTION)
-        print(f"getOrders access_token: {access_token[1:10]}")
-        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
-        response = api.execute("GetOrders", {"NumberOfDays": NumberOfDays})
-        return response
-        print(f"getOrders response.dict(): {response.dict()}")
-        orders = str(response.reply)
-        print(f"getOrders orders: {orders}")
-        return JsonResponse({"orders": f"{orders}"})      
-        #except:
-            #return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
+            app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
+            credentialu = credentialutil
+            credentialu.load(app_config_path)
+            credential = credentialu.get_credentials(environment.PRODUCTION)
+            print(f"getOrders access_token: {access_token[1:10]}")
+            api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
+            getOrders = api.execute("GetOrders", {"NumberOfDays": NumberOfDays})
+            print(f"""
+            _________________________
+            getOrders getOrders: {getOrders.reply}
+            _________________________
+            """)
+            print(f"getOrders response.dict(): {response.dict()}")
+            orders = str(response.reply)
+            print(f"getOrders orders: {orders}")
+            return JsonResponse({"orders": f"{orders}"})      
+        except:
+            return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
@@ -117,25 +121,29 @@ def authDeclined(request):
 
 def getUser(request,access_token):
     try:
-        #try:
-        access_token = access_token.replace("PABLO_ROCKS","#")
-        access_token = access_token.replace("ANA_ROCKS","/")
-        app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
-        credentialu = credentialutil
-        credentialu.load(app_config_path)
-        credential = credentialu.get_credentials(environment.PRODUCTION)
-        print(f"getUser access_token: {access_token[1:10]}")
-        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
-        response = api.execute("GetUser", {})
-        return response
+        try:
+            access_token = access_token.replace("PABLO_ROCKS","#")
+            access_token = access_token.replace("ANA_ROCKS","/")
+            app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
+            credentialu = credentialutil
+            credentialu.load(app_config_path)
+            credential = credentialu.get_credentials(environment.PRODUCTION)
+            print(f"getUser access_token: {access_token[1:10]}")
+            api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
+            getUser = api.execute("GetUser", {})
+            print(f"""
+            _________________________
+            getUser getUser: {getUser.reply}
+            _________________________
+            """)
 
-        print(f"getUser response.dict(): {response.dict()}")
-        userData = str(response.dict())
-        print(f"getUser userData: {userData}")
+            print(f"getUser response.dict(): {response.dict()}")
+            userData = str(response.dict())
+            print(f"getUser userData: {userData}")
 
-        data = {"userData":f"{userData}"}
-        #except:
-            #data = {"userData":"UNABLE TO FETCH USER DATA"}
+            data = {"userData":f"{userData}"}
+        except:
+            data = {"userData":"UNABLE TO FETCH USER DATA"}
         
     except ConnectionError as e:
         print(e)
