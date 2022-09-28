@@ -40,8 +40,13 @@ def authAccepted(request):
         authAccepted code: {code}
         _________________________
         """)
+        app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
+        credentialu = credentialutil
+        credentialu.load(app_config_path)
+        oauth2api_inst = oauth2api()
+        user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
         #Query String Example: ?strID=XXXX&strName=yyyy&strDate=zzzzz
-        response = redirect(f"https://tea-party.vercel.app?code={code}")
+        response = redirect(f"https://tea-party.vercel.app?code={user_token.access_token}")
         return response
     except ConnectionError as e:
         print(e)
@@ -49,11 +54,11 @@ def authAccepted(request):
 
 def getOrders(request):
     try:
-        code = request.GET.get('code')
+        access_token = request.GET.get('code')
         print(f"""
         _________________________
         getOrders request: {request}
-        getOrders code: {code}
+        getOrders code: {access_token}
         _________________________    
         """)
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
@@ -61,14 +66,9 @@ def getOrders(request):
         credentialu.load(app_config_path)
         oauth2api_inst = oauth2api()
         try:
-            user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
-            print(f"""
-            _________________________
-            getOrders user_token: {user_token}
-            _________________________    
-            """)
+            #user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
             credential = credentialu.get_credentials(environment.PRODUCTION)
-            api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
+            api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
 
             orders = api.execute('GetOrders', {'NumberOfDays': 30})
             print(orders.dict())
