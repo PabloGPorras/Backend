@@ -91,19 +91,11 @@ def getOrders(request,code,NumberOfDays):
             credential = credentialu.get_credentials(environment.PRODUCTION)
             api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
             orders = api.execute('GetOrders', {'NumberOfDays': NumberOfDays})
-            print(f"""
-            _________________________'
-            getOrders orders: {orders}
-            _________________________    
-            """)
-            order_data = orders
+            print(f"getOrders orders.dict(): {orders.dict()}")
+            order_data = orders.dict()
         except:
             order_data = "COULD NOT RETREIVE ORDERS"
-        print(f"""
-        _________________________'
-        getOrders order_data: {order_data}
-        _________________________    
-        """)
+        print(f"getOrders order_data: {order_data}")
         data = {
             'orders':order_data
         }
@@ -133,9 +125,10 @@ def getUser(request,code):
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         
         response = api.execute('GetUser', {})
-        print(response.dict())
-        print(response.reply)
-        return JsonResponse(response.reply)
+        data = {
+            'orders':response.dict()
+        }
+        return JsonResponse(data)
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
