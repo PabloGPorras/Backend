@@ -61,7 +61,7 @@ def authAccepted(request):
         response = redirect(f"https://tea-party.vercel.app?code={code}")
 
         #getUser
-        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         print(api.execute("GetUser", {}))
 
         #getOrders
