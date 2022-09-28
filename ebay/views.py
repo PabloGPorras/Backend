@@ -56,7 +56,7 @@ def authAccepted(request):
 
         _________________________
         """)        
-        response = redirect(f"https://tea-party.vercel.app?access_token={user_token.access_token}")
+        response = redirect(f"https://tea-party.vercel.app?code={code}")
         return response
     except ConnectionError as e:
         print(e)
