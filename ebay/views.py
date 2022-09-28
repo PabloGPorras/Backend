@@ -33,7 +33,6 @@ def index(request):
         print(e.response.dict())
 
 def authAccepted(request):
-    
     try:
         code = request.GET.get('code')
         print(f"""
@@ -50,12 +49,22 @@ def authAccepted(request):
 
 def getOrders(request,code):
     try:
+        print(f"""
+        _________________________
+        getOrders request: {request}
+        getOrders code: {code}
+        _________________________    
+        """)
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
         credentialu = credentialutil
         credentialu.load(app_config_path)
         oauth2api_inst = oauth2api()
         user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
-
+        print(f"""
+        _________________________
+        getOrders user_token: {user_token}
+        _________________________    
+        """)
         credential = credentialu.get_credentials(environment.PRODUCTION)
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
 
