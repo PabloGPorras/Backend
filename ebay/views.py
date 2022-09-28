@@ -69,8 +69,12 @@ def getOrders(request):
         print(f"""
         _________________________
         getOrders request: {request}
-        getOrders access_token: {code}
-        _________________________    
+        getOrders code_hashed: {code}    
+        """)
+        code = code.replace('PABLO_ROCKS','#')
+        print(f"""
+        getOrders code_unhashed: {code}   
+        _________________________ 
         """)
         try:
             app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
