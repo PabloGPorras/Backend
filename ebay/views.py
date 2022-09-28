@@ -83,12 +83,17 @@ def getOrders(request,code):
             credentialu.load(app_config_path)
             oauth2api_inst = oauth2api()
             user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
-
+            print(f"""
+            _________________________
+            getOrders user_token: {user_token}
+            _________________________    
+            """)
             credential = credentialu.get_credentials(environment.PRODUCTION)
             api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
             orders = api.execute('GetOrders', {'NumberOfDays': 200})
             print(f"""
-            _________________________
+            _________________________'
+            getOrders orders: {orders}
             getOrders orders.dict(): {orders.dict()}
             getOrders orders.reply: {orders.reply}
             _________________________    
