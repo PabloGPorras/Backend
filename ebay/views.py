@@ -46,6 +46,16 @@ def authAccepted(request):
         oauth2api_inst = oauth2api()
         user_token = oauth2api_inst.exchange_code_for_access_token(credentialu,environment.PRODUCTION, code)
         #Query String Example: ?strID=XXXX&strName=yyyy&strDate=zzzzz
+        print(f"""
+        _________________________
+        authAccepted user_token: {user_token}
+        authAccepted user_token.access_token: {user_token.access_token}
+        authAccepted user_token.refresh_token: {user_token.refresh_token}
+        authAccepted user_token.token_expiry: {user_token.token_expiry}
+        authAccepted user_token.refresh_token_expiry: {user_token.refresh_token_expiry}
+
+        _________________________
+        """)        
         response = redirect(f"https://tea-party.vercel.app?access_token={user_token.access_token}")
         return response
     except ConnectionError as e:
