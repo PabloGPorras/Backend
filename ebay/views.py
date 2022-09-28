@@ -57,6 +57,7 @@ def authAccepted(request):
         _________________________
         """)        
         code = user_token.access_token.replace('#','PABLO_ROCKS')
+        code = code.replace('/','ANA_ROCKS')
         response = redirect(f"https://tea-party.vercel.app?code={code}")
         return response
     except ConnectionError as e:
@@ -67,6 +68,8 @@ def getOrders(request,access_token,NumberOfDays):
     try:
         try:
             access_token = access_token.replace('PABLO_ROCKS','#')
+            access_token = access_token.replace('ANA_ROCKS','/')
+
             app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
             credentialu = credentialutil
             credentialu.load(app_config_path)
@@ -99,6 +102,7 @@ def authDeclined(request):
 def getUser(request,access_token):
     try:
         access_token = access_token.replace('PABLO_ROCKS','#')
+        access_token = access_token.replace('ANA_ROCKS','/')
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
         credentialu = credentialutil
         credentialu.load(app_config_path)
@@ -121,6 +125,7 @@ def getUser(request,access_token):
 def getMemberMessages(request,access_token):
     try:
         access_token = access_token.replace('PABLO_ROCKS','#')
+        access_token = access_token.replace('ANA_ROCKS','/')
         app_config_path = os.path.join(os.path.split(__file__)[0], 'config', 'ebay-config.json')
         credentialu = credentialutil
         credentialu.load(app_config_path)
