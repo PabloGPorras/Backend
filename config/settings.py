@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-$s$a#m!^vo2c238z!%13@6*lcj$uy$(*b%(lg$ic)(gzs4rdo5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ebay-backend-django.herokuapp.com','localhost:5000','http://localhost:5000','https://tea-party-frontend.vercel.app/']
+ALLOWED_HOSTS = ['ebay-backend-django.herokuapp.com','localhost:5000','http://localhost:5000','https://tea-party-frontend.vercel.app/',"https://127.0.0.1:8000","127.0.0.1"]
 
 
 # Application definition
@@ -61,7 +61,8 @@ CORS_ALLOWED_ORIGINS = [
 "http://127.0.0.1:9000",
 "https://tea-party.vercel.app",
 "http://127.0.0.1:5173",
-"https://tea-party-ggdrel786-pablogporras.vercel.app"
+"https://tea-party-ggdrel786-pablogporras.vercel.app",
+"https://127.0.0.1:8000",
 ]
 
 ROOT_URLCONF = 'config.urls'

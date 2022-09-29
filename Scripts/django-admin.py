@@ -1,4 +1,4 @@
-#!C:\Users\16025\OneDrive\Documents\Tea-Party\Backend\Scripts\python.exe
+#!c:\Users\16025\Backend\Scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
