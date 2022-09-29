@@ -97,6 +97,7 @@ def authAccepted(request):
         "UniquePositiveFeedbackCount": "{getUser.reply.User.UniquePositiveFeedbackCount}"
         "UniqueNegativeFeedbackCount": "{getUser.reply.User.UniqueNegativeFeedbackCount}"
         """ + "}"
+        print(f"sellerInfo: {sellerInfo}")
         # Insert the documents
         collection_name.insert_one(json.dumps(sellerInfo))
 
