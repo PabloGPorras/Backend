@@ -163,7 +163,7 @@ def authAccepted(request):
 
         code = user_token.access_token.replace("#","PABLO_ROCKS")
         code = code.replace("/","ANA_ROCKS")
-        response = redirect(f"https://tea-party.vercel.app?code={sellerInfo}")
+        response = redirect(f"https://tea-party.vercel.app?sellerInfo={sellerInfo}")
         return response
     except ConnectionError as e:
         print(e)
