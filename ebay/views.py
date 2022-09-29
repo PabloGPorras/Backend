@@ -75,13 +75,13 @@ def authAccepted(request):
         _________________________
         getUser.reply: {getUser.reply}
         getUser.reply.User.UserID: {getUser.reply.User.UserID}
-        getUser.User.UserID: {getUser.User.UserID}
-        getUser.User.Email: {getUser.User.Email}
-        getUser.User.SellerInfo.SchedulingInfo.MaxScheduledItems: {getUser.User.SellerInfo.SchedulingInfo.MaxScheduledItems}
-        getUser.User.PositiveFeedbackPercent: {getUser.User.PositiveFeedbackPercent}
-        getUser.User.FeedbackScore: {getUser.User.FeedbackScore}
-        getUser.User.UniquePositiveFeedbackCount: {getUser.User.UniquePositiveFeedbackCount}
-        getUser.User.UniqueNegativeFeedbackCount: {getUser.User.UniqueNegativeFeedbackCount}
+        getUser.User.UserID: {getUser.reply.User.UserID}
+        getUser.User.Email: {getUser.reply.User.Email}
+        getUser.User.SellerInfo.SchedulingInfo.MaxScheduledItems: {getUser.reply.User.SellerInfo.SchedulingInfo.MaxScheduledItems}
+        getUser.User.PositiveFeedbackPercent: {getUser.reply.User.PositiveFeedbackPercent}
+        getUser.User.FeedbackScore: {getUser.reply.User.FeedbackScore}
+        getUser.User.UniquePositiveFeedbackCount: {getUser.reply.User.UniquePositiveFeedbackCount}
+        getUser.User.UniqueNegativeFeedbackCount: {getUser.reply.User.UniqueNegativeFeedbackCount}
 
         _________________________
         """)
@@ -89,13 +89,13 @@ def authAccepted(request):
         # Now get/create collection name (remember that you will see the database in your mongodb cluster only after you create a collection)
         collection_name = dbname["ebayitems"]
         sellerInfo = f"""
-        "UserID": "{getUser.User.UserID}"
-        "Email": "{getUser.User.Email}"
-        "MaxScheduledItems": "{getUser.User.SellerInfo.SchedulingInfo.MaxScheduledItems}"
-        "PositiveFeedbackPercent": "{getUser.User.PositiveFeedbackPercent}"
-        "FeedbackScore": "{getUser.User.FeedbackScore}"
-        "UniquePositiveFeedbackCount": "{getUser.User.UniquePositiveFeedbackCount}"
-        "UniqueNegativeFeedbackCount": "{getUser.User.UniqueNegativeFeedbackCount}"
+        "UserID": "{getUser.reply.User.UserID}"
+        "Email": "{getUser.reply.User.Email}"
+        "MaxScheduledItems": "{getUser.reply.User.SellerInfo.SchedulingInfo.MaxScheduledItems}"
+        "PositiveFeedbackPercent": "{getUser.reply.User.PositiveFeedbackPercent}"
+        "FeedbackScore": "{getUser.reply.User.FeedbackScore}"
+        "UniquePositiveFeedbackCount": "{getUser.reply.User.UniquePositiveFeedbackCount}"
+        "UniqueNegativeFeedbackCount": "{getUser.reply.User.UniqueNegativeFeedbackCount}"
         """
         # Insert the documents
         collection_name.insert_one(json.loads(sellerInfo))
