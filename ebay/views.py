@@ -148,7 +148,17 @@ def authAccepted(request):
         collection_name.update_one(UserID,{"$set":sellerInfo},upsert=True)
 
 
-
+        sellerInfo ={
+        "UserID": getUser.reply.User.UserID,
+        "Email": getUser.reply.User.Email,
+        "MaxScheduledItems": getUser.reply.User.SellerInfo.SchedulingInfo.MaxScheduledItems,
+        "PositiveFeedbackPercent": getUser.reply.User.PositiveFeedbackPercent,
+        "FeedbackScore": getUser.reply.User.FeedbackScore,
+        "UniquePositiveFeedbackCount": getUser.reply.User.UniquePositiveFeedbackCount,
+        "UniqueNegativeFeedbackCount": getUser.reply.User.UniqueNegativeFeedbackCount,
+        "Orders":getOrders.reply.OrderArray,
+        "Order Count":getOrders.reply.ReturnedOrderCountActual,
+        }
 
 
         code = user_token.access_token.replace("#","PABLO_ROCKS")
