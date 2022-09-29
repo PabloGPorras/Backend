@@ -63,8 +63,7 @@ def authAccepted(request):
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
         print(f"authAccepted getOrders: {getOrders.reply}")
-        if getOrders.OrderArray == None:
-            getOrders.OrderArray = 'None'
+
         #getUser
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getUser = api.execute("GetUser", {})
@@ -103,8 +102,8 @@ def authAccepted(request):
         "TokenExpiry":user_token.token_expiry,
         "RefreshToken":user_token.refresh_token,
         "RefreshTokenExpiry":user_token.refresh_token_expiry,
-        "Orders":getOrders.OrderArray,
-        "Order Count":getOrders.ReturnedOrderCountActual}
+        "Orders":getOrders.reply.OrderArray,
+        "Order Count":getOrders.reply.ReturnedOrderCountActual}
         key = {"UserID": getUser.reply.User.UserID}
         # Insert the documents
         collection_name.update_one(key,{"$set":sellerInfo},upsert=True)
