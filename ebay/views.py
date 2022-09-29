@@ -63,7 +63,8 @@ def authAccepted(request):
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
         print(f"authAccepted getOrders: {getOrders.reply}")
-
+        if getOrders.OrderArray == None:
+            getOrders.OrderArray = 'None'
         #getUser
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getUser = api.execute("GetUser", {})
