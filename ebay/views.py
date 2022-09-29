@@ -89,12 +89,12 @@ def authAccepted(request):
         # Now get/create collection name (remember that you will see the database in your mongodb cluster only after you create a collection)
         collection_name = dbname["ebayitems"]
         sellerInfo ="{" + f"""
-        "UserID": "{getUser.reply.User.UserID}"
-        "Email": "{getUser.reply.User.Email}"
-        "MaxScheduledItems": "{getUser.reply.User.SellerInfo.SchedulingInfo.MaxScheduledItems}"
-        "PositiveFeedbackPercent": "{getUser.reply.User.PositiveFeedbackPercent}"
-        "FeedbackScore": "{getUser.reply.User.FeedbackScore}"
-        "UniquePositiveFeedbackCount": "{getUser.reply.User.UniquePositiveFeedbackCount}"
+        "UserID": "{getUser.reply.User.UserID}",
+        "Email": "{getUser.reply.User.Email}",
+        "MaxScheduledItems": "{getUser.reply.User.SellerInfo.SchedulingInfo.MaxScheduledItems}",
+        "PositiveFeedbackPercent": "{getUser.reply.User.PositiveFeedbackPercent}",
+        "FeedbackScore": "{getUser.reply.User.FeedbackScore}",
+        "UniquePositiveFeedbackCount": "{getUser.reply.User.UniquePositiveFeedbackCount}",
         "UniqueNegativeFeedbackCount": "{getUser.reply.User.UniqueNegativeFeedbackCount}"
         """ + "}"
         print(f"sellerInfo: {sellerInfo}")
