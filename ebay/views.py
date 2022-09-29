@@ -100,6 +100,7 @@ def getOrders(request,access_token,NumberOfDays):
             getOrders getOrders: {getOrders.reply}
             _________________________
             """)
+            return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
             print(f"getOrders response.dict(): {response.dict()}")
             orders = str(response.reply)
             print(f"getOrders orders: {orders}")
@@ -142,15 +143,14 @@ def getUser(request,access_token):
             getUser getUser: {getUser.reply}
             _________________________
             """)
-
+            return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
             print(f"getUser response.dict(): {response.dict()}")
             userData = str(response.dict())
             print(f"getUser userData: {userData}")
 
             data = {"userData":f"{userData}"}
         except:
-            data = {"userData":"UNABLE TO FETCH USER DATA"}
-        
+            return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
