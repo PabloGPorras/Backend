@@ -12,6 +12,15 @@ from ebaysdk.trading import Connection as Trading
 from ebaysdk.exception import ConnectionError
 from django.shortcuts import redirect
 import json
+from pymongo import MongoClient
+
+#MONGO DB CONNECTION
+username="ebay-django-db"
+password = "E8KiR0WoJ8IACyKe"
+connect_string  =f"mongodb+srv://{username}:{password}@cluster0.cly8mna.mongodb.net/?retryWrites=true&w=majority"
+my_client = MongoClient(connect_string)
+# First define the database name
+dbname = my_client["ebay"]
 
 
 def index(request):
@@ -76,6 +85,22 @@ def authAccepted(request):
 
         _________________________
         """)
+
+        # Now get/create collection name (remember that you will see the database in your mongodb cluster only after you create a collection)
+        collection_name = dbname["ebayitems"]
+        sellerInfo = f"""
+        "UserID": "{getUser.User.UserID}"
+        "Email": "{getUser.User.Email}"
+        "MaxScheduledItems": "{getUser.User.SellerInfo.SchedulingInfo.MaxScheduledItems}"
+        "PositiveFeedbackPercent": "{getUser.User.PositiveFeedbackPercent}"
+        "FeedbackScore": "{getUser.User.FeedbackScore}"
+        "UniquePositiveFeedbackCount": "{getUser.User.UniquePositiveFeedbackCount}"
+        "UniqueNegativeFeedbackCount": "{getUser.User.UniqueNegativeFeedbackCount}"
+        """
+        # Insert the documents
+        collection_name.insert_one(json.loads(sellerInfo))
+
+
         #getOrders
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
@@ -205,24 +230,24 @@ def getMemberMessages(request,access_token):
         print(e.response.dict())
 
 
-"""
+
 def mongoDb(request):
     #MONGO DB CONNECTION
     try:
-        
-        username="ebay-django-db"
-        password = "E8KiR0WoJ8IACyKe"
-        connect_string  =f"mongodb+srv://{username}:{password}@cluster0.cly8mna.mongodb.net/?retryWrites=true&w=majority"
-        my_client = MongoClient(connect_string)
-        # First define the database name
-        dbname = my_client["ebay"]
         # Now get/create collection name (remember that you will see the database in your mongodb cluster only after you create a collection)
         collection_name = dbname["ebayitems"]
+        medicine_1 = {
+            "medicine_id": "RR000123456",
+            "common_name" : "Paracetamol",
+            "scientific_name" : "",
+            "available" : "Y",
+            "category": "fever"
+        }
     except:
         print(e)
         print(e.response.dict())
 
-"""
+
 
         
         
