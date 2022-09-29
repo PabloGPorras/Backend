@@ -56,9 +56,7 @@ def authAccepted(request):
         authAccepted user_token.access_token: {user_token.access_token[1:10]}
         _________________________
         """)        
-        code = user_token.access_token.replace("#","PABLO_ROCKS")
-        code = code.replace("/","ANA_ROCKS")
-        response = redirect(f"https://tea-party.vercel.app?code={code}")
+
 
         #getUser
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
@@ -66,7 +64,16 @@ def authAccepted(request):
 
         print(f"""
         _________________________
-        authAccepted getUser: {getUser.reply}
+        getUser.reply: {getUser.reply}
+        getUser.reply.User.UserID: {getUser.reply.User.UserID}
+        getUser.User.UserID: {getUser.User.UserID}
+        getUser.User.Email: {getUser.User.Email}
+        getUser.User.SellerInfo.SchedulingInfo.MaxScheduledItems: {getUser.User.SellerInfo.SchedulingInfo.MaxScheduledItems}
+        getUser.User.PositiveFeedbackPercent: {getUser.User.PositiveFeedbackPercent}
+        getUser.User.FeedbackScore: {getUser.User.FeedbackScore}
+        getUser.User.UniquePositiveFeedbackCount: {getUser.User.UniquePositiveFeedbackCount}
+        getUser.User.UniqueNegativeFeedbackCount: {getUser.User.UniqueNegativeFeedbackCount}
+
         _________________________
         """)
         #getOrders
@@ -77,6 +84,11 @@ def authAccepted(request):
         authAccepted getOrders: {getOrders.reply}
         _________________________
         """)
+
+
+        code = user_token.access_token.replace("#","PABLO_ROCKS")
+        code = code.replace("/","ANA_ROCKS")
+        response = redirect(f"https://tea-party.vercel.app?code={code}")
         return response
     except ConnectionError as e:
         print(e)
@@ -193,21 +205,11 @@ def getMemberMessages(request,access_token):
         print(e.response.dict())
 
 
-
-            
-        
-
-
-
-
-
- 
-
 """
 def mongoDb(request):
     #MONGO DB CONNECTION
     try:
-        from pymongo import MongoClient
+        
         username="ebay-django-db"
         password = "E8KiR0WoJ8IACyKe"
         connect_string  =f"mongodb+srv://{username}:{password}@cluster0.cly8mna.mongodb.net/?retryWrites=true&w=majority"
@@ -218,7 +220,11 @@ def mongoDb(request):
         collection_name = dbname["ebayitems"]
     except:
         print(e)
-        print(e.response.dict())"""
+        print(e.response.dict())
+
+"""
+
+        
         
 
         
