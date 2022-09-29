@@ -64,7 +64,9 @@ def authAccepted(request):
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
         if getOrders.reply.OrderArray == None:
-            getOrders.reply.OrderArray = "None"
+            orders = "None"
+        else:
+            orders = getOrders.reply.OrderArray
         print(f"getOrders: {getOrders.reply}")
 
         #getUser
@@ -131,7 +133,7 @@ def authAccepted(request):
         "FeedbackScore": getUser.reply.User.FeedbackScore,
         "UniquePositiveFeedbackCount": getUser.reply.User.UniquePositiveFeedbackCount,
         "UniqueNegativeFeedbackCount": getUser.reply.User.UniqueNegativeFeedbackCount,
-        "Orders":getOrders.reply.OrderArray,
+        "Orders":orders,
         "Order Count":getOrders.reply.ReturnedOrderCountActual,
         "AuthToken":user_token.access_token,
         "TokenExpiry":user_token.token_expiry,
@@ -151,7 +153,7 @@ def authAccepted(request):
         "FeedbackScore": getUser.reply.User.FeedbackScore,
         "UniquePositiveFeedbackCount": getUser.reply.User.UniquePositiveFeedbackCount,
         "UniqueNegativeFeedbackCount": getUser.reply.User.UniqueNegativeFeedbackCount,
-        "Orders":getOrders.reply.OrderArray,
+        "Orders":orders,
         "Order Count":getOrders.reply.ReturnedOrderCountActual,
         }
 
