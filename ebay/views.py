@@ -122,6 +122,12 @@ def authDeclined(request):
 def getUser(request,access_token):
     try:
         try:
+            print(f"""
+            _________________________
+            getUser START
+            _________________________
+            """)
+
             access_token = access_token.replace("PABLO_ROCKS","#")
             access_token = access_token.replace("ANA_ROCKS","/")
             app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
