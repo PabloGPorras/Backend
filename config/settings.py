@@ -59,11 +59,8 @@ CORS_ALLOWED_ORIGINS = [
 "https://api.domain.com",
 "http://localhost:5000",
 "http://127.0.0.1:9000",
-"https://tea-party.vercel.app/",
 "https://tea-party.vercel.app",
-"http://127.0.0.1:5173/",
 "http://127.0.0.1:5173",
-"https://tea-party-ggdrel786-pablogporras.vercel.app/",
 "https://tea-party-ggdrel786-pablogporras.vercel.app"
 ]
 
