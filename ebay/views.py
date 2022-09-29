@@ -95,14 +95,6 @@ def authAccepted(request):
         GetMemberMessages = api.execute('GetMemberMessages', memberData)
         print(f"GetMemberMessages: {GetMemberMessages.reply}")
 
-        #GetCategories
-        callData = {
-            'DetailLevel': 'ReturnAll',
-            'CategorySiteID': 101,
-            'LevelLimit': 4,
-        }
-        GetCategories = api.execute('GetCategories', callData)
-        print(f"GetCategories: {GetCategories.reply}")
 
 
 
