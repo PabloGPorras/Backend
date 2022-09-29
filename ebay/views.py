@@ -84,29 +84,26 @@ def authAccepted(request):
 
 def getOrders(request,access_token,NumberOfDays):
     try:
-        try:
-            access_token = access_token.replace("PABLO_ROCKS","#")
-            access_token = access_token.replace("ANA_ROCKS","/")
+        access_token = access_token.replace("PABLO_ROCKS","#")
+        access_token = access_token.replace("ANA_ROCKS","/")
 
-            app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
-            credentialu = credentialutil
-            credentialu.load(app_config_path)
-            credential = credentialu.get_credentials(environment.PRODUCTION)
-            print(f"getOrders access_token: {access_token[1:10]}")
-            api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
-            getOrders = api.execute("GetOrders", {"NumberOfDays": NumberOfDays})
-            print(f"""
-            _________________________
-            getOrders getOrders: {getOrders.reply}
-            _________________________
-            """)
-            return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
-            print(f"getOrders response.dict(): {response.dict()}")
-            orders = str(response.reply)
-            print(f"getOrders orders: {orders}")
-            return JsonResponse({"orders": f"{orders}"})      
-        except:
-            return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
+        app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
+        credentialu = credentialutil
+        credentialu.load(app_config_path)
+        credential = credentialu.get_credentials(environment.PRODUCTION)
+        print(f"getOrders access_token: {access_token[1:10]}")
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
+        getOrders = api.execute("GetOrders", {"NumberOfDays": NumberOfDays})
+        print(f"""
+        _________________________
+        getOrders getOrders: {getOrders.reply}
+        _________________________
+        """)
+        return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
+        print(f"getOrders response.dict(): {response.dict()}")
+        orders = str(response.reply)
+        print(f"getOrders orders: {orders}")
+        return JsonResponse({"orders": f"{orders}"})      
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
@@ -122,35 +119,32 @@ def authDeclined(request):
 
 def getUser(request,access_token):
     try:
-        try:
-            print(f"""
-            _________________________
-            getUser START
-            _________________________
-            """)
+        print(f"""
+        _________________________
+        getUser START
+        _________________________
+        """)
 
-            access_token = access_token.replace("PABLO_ROCKS","#")
-            access_token = access_token.replace("ANA_ROCKS","/")
-            app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
-            credentialu = credentialutil
-            credentialu.load(app_config_path)
-            credential = credentialu.get_credentials(environment.PRODUCTION)
-            print(f"getUser access_token: {access_token[1:10]}")
-            api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
-            getUser = api.execute("GetUser", {})
-            print(f"""
-            _________________________
-            getUser getUser: {getUser.reply}
-            _________________________
-            """)
-            return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
-            print(f"getUser response.dict(): {response.dict()}")
-            userData = str(response.dict())
-            print(f"getUser userData: {userData}")
+        access_token = access_token.replace("PABLO_ROCKS","#")
+        access_token = access_token.replace("ANA_ROCKS","/")
+        app_config_path = os.path.join(os.path.split(__file__)[0], "config", "ebay-config.json")
+        credentialu = credentialutil
+        credentialu.load(app_config_path)
+        credential = credentialu.get_credentials(environment.PRODUCTION)
+        print(f"getUser access_token: {access_token[1:10]}")
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
+        getUser = api.execute("GetUser", {})
+        print(f"""
+        _________________________
+        getUser getUser: {getUser.reply}
+        _________________________
+        """)
+        return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
+        print(f"getUser response.dict(): {response.dict()}")
+        userData = str(response.dict())
+        print(f"getUser userData: {userData}")
 
-            data = {"userData":f"{userData}"}
-        except:
-            return JsonResponse({"orders": "COULD NOT RETREIVE ORDERS"})
+        data = {"userData":f"{userData}"}
     except ConnectionError as e:
         print(e)
         print(e.response.dict())
