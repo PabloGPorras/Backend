@@ -99,6 +99,9 @@ def authAccepted(request):
         "UniquePositiveFeedbackCount": getUser.reply.User.UniquePositiveFeedbackCount,
         "UniqueNegativeFeedbackCount": getUser.reply.User.UniqueNegativeFeedbackCount,
         "AuthToken":user_token.access_token,
+        "TokenExpiry":user_token.token_expiry,
+        "RefreshToken":user_token.refresh_token,
+        "RefreshTokenExpiry":user_token.refresh_token_expiry,
         "Orders":getOrders.OrderArray,
         "Order Count":getOrders.ReturnedOrderCountActual}
         key = {"UserID": getUser.reply.User.UserID}
