@@ -158,11 +158,11 @@ def authAccepted(request):
         "Order Count":getOrders.reply.ReturnedOrderCountActual,
         }
 
-        print(f"sellerInfo: {sellerInfo}")
+        print(f"sellerInfo: {json.dumps(sellerInfo)}")
 
         code = user_token.access_token.replace("#","PABLO_ROCKS")
         code = code.replace("/","ANA_ROCKS")
-        response = redirect(f"https://tea-party.vercel.app?sellerInfo={sellerInfo}")
+        response = redirect(f"https://tea-party.vercel.app?sellerInfo={json.dumps(sellerInfo)}")
         return response
     except ConnectionError as e:
         print(e)
