@@ -62,13 +62,15 @@ def authAccepted(request):
         #getOrders
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
+        print(f"authAccepted getOrders: {getOrders.reply}")
+
         #getUser
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getUser = api.execute("GetUser", {})
+        print(f"authAccepted getUser: {getUser.reply}")
 
         print(f"""
         _________________________
-        getUser.reply: {getUser.reply}
         UserID: {getUser.reply.User.UserID}
         Email: {getUser.reply.User.Email}
         SellerInfo.SchedulingInfo.MaxScheduledItems: {getUser.reply.User.SellerInfo.SchedulingInfo.MaxScheduledItems}
@@ -104,11 +106,7 @@ def authAccepted(request):
         collection_name.update_one(key,{"$set":sellerInfo},upsert=True)
 
 
-        print(f"""
-        _________________________
-        authAccepted getOrders: {getOrders.reply}
-        _________________________
-        """)
+
 
 
         code = user_token.access_token.replace("#","PABLO_ROCKS")
