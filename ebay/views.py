@@ -88,15 +88,15 @@ def authAccepted(request):
 
         # Now get/create collection name (remember that you will see the database in your mongodb cluster only after you create a collection)
         collection_name = dbname["ebayitems"]
-        sellerInfo ="{" + f"""
-        "UserID": "{getUser.reply.User.UserID}",
-        "Email": "{getUser.reply.User.Email}",
-        "MaxScheduledItems": "{getUser.reply.User.SellerInfo.SchedulingInfo.MaxScheduledItems}",
-        "PositiveFeedbackPercent": "{getUser.reply.User.PositiveFeedbackPercent}",
-        "FeedbackScore": "{getUser.reply.User.FeedbackScore}",
-        "UniquePositiveFeedbackCount": "{getUser.reply.User.UniquePositiveFeedbackCount}",
-        "UniqueNegativeFeedbackCount": "{getUser.reply.User.UniqueNegativeFeedbackCount}"
-        """ + "}"
+        sellerInfo ={
+        "UserID": f"{getUser.reply.User.UserID}",
+        "Email": f"{getUser.reply.User.Email}",
+        "MaxScheduledItems": f"{getUser.reply.User.SellerInfo.SchedulingInfo.MaxScheduledItems}",
+        "PositiveFeedbackPercent": f"{getUser.reply.User.PositiveFeedbackPercent}",
+        "FeedbackScore": f"{getUser.reply.User.FeedbackScore}",
+        "UniquePositiveFeedbackCount": f"{getUser.reply.User.UniquePositiveFeedbackCount}",
+        "UniqueNegativeFeedbackCount": f"{getUser.reply.User.UniqueNegativeFeedbackCount}"}
+        
         print(f"sellerInfo: {sellerInfo}")
         # Insert the documents
         collection_name.insert_one(json.dumps(sellerInfo))
