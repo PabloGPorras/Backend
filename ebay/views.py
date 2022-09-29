@@ -62,12 +62,49 @@ def authAccepted(request):
         #getOrders
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
-        print(f"authAccepted getOrders: {getOrders.reply}")
+        print(f"getOrders: {getOrders.reply}")
 
         #getUser
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getUser = api.execute("GetUser", {})
-        print(f"authAccepted getUser: {getUser.reply}")
+        UserID = {"UserID": getUser.reply.User.UserID}
+        print(f"getUser: {getUser.reply}")
+        
+
+        #getFeeback
+        getFeedback = api.execute('GetFeedback', UserID)
+        print(f"getFeedback: {getFeedback.reply}")
+        
+        #getTokenStatus
+        getTokenStatus = api.execute('GetTokenStatus')
+        print(f"getTokenStatus: {getTokenStatus.reply}")
+
+        #GetMemberMessages
+        memberData = {
+            "WarningLevel": "High",
+            "MailMessageType": "All",
+            # "MessageStatus": "Unanswered",
+            "StartCreationTime": now - datetime.timedelta(days=60),
+            "EndCreationTime": now,
+            "Pagination": {
+                "EntriesPerPage": "5",
+                "PageNumber": "1"
+            }
+        }
+        GetMemberMessages = api.execute('GetMemberMessages', memberData)
+        print(f"GetMemberMessages: {GetMemberMessages.reply}")
+
+        #GetCategories
+        callData = {
+            'DetailLevel': 'ReturnAll',
+            'CategorySiteID': 101,
+            'LevelLimit': 4,
+        }
+        GetCategories = api.execute('GetCategories', callData)
+        print(f"GetCategories: {GetCategories.reply}")
+
+
+
 
         print(f"""
         _________________________
@@ -98,15 +135,16 @@ def authAccepted(request):
         "FeedbackScore": getUser.reply.User.FeedbackScore,
         "UniquePositiveFeedbackCount": getUser.reply.User.UniquePositiveFeedbackCount,
         "UniqueNegativeFeedbackCount": getUser.reply.User.UniqueNegativeFeedbackCount,
+        "Orders":getOrders.reply.OrderArray,
+        "Order Count":getOrders.reply.ReturnedOrderCountActual,
         "AuthToken":user_token.access_token,
         "TokenExpiry":user_token.token_expiry,
         "RefreshToken":user_token.refresh_token,
         "RefreshTokenExpiry":user_token.refresh_token_expiry,
-        "Orders":getOrders.reply.OrderArray,
-        "Order Count":getOrders.reply.ReturnedOrderCountActual}
-        key = {"UserID": getUser.reply.User.UserID}
+        }
+        
         # Insert the documents
-        collection_name.update_one(key,{"$set":sellerInfo},upsert=True)
+        collection_name.update_one(UserID,{"$set":sellerInfo},upsert=True)
 
 
 
