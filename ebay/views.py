@@ -20,7 +20,7 @@ password = "E8KiR0WoJ8IACyKe"
 connect_string  =f"mongodb+srv://{username}:{password}@cluster0.cly8mna.mongodb.net/?retryWrites=true&w=majority"
 my_client = MongoClient(connect_string)
 # First define the database name
-dbname = my_client["ebay"]
+dbname = my_client["tea-party"]
 
 
 def index(request):
@@ -87,23 +87,19 @@ def authAccepted(request):
         """)
 
         # Now get/create collection name (remember that you will see the database in your mongodb cluster only after you create a collection)
-        collection_name = dbname["ebayitems"]
+        collection_name = dbname["user-login"]
         sellerInfo ={
-        "UserID": f"{getUser.reply.User.UserID}",
-        "Email": f"{getUser.reply.User.Email}",
-        "MaxScheduledItems": f"{getUser.reply.User.SellerInfo.SchedulingInfo.MaxScheduledItems}",
-        "PositiveFeedbackPercent": f"{getUser.reply.User.PositiveFeedbackPercent}",
-        "FeedbackScore": f"{getUser.reply.User.FeedbackScore}",
-        "UniquePositiveFeedbackCount": f"{getUser.reply.User.UniquePositiveFeedbackCount}",
-        "UniqueNegativeFeedbackCount": f"{getUser.reply.User.UniqueNegativeFeedbackCount}"}
-        
-        print(f"sellerInfo: {sellerInfo}")
+        "UserID": getUser.reply.User.UserID,
+        "Email": getUser.reply.User.Email,
+        "MaxScheduledItems": getUser.reply.User.SellerInfo.SchedulingInfo.MaxScheduledItems,
+        "PositiveFeedbackPercent": getUser.reply.User.PositiveFeedbackPercent,
+        "FeedbackScore": getUser.reply.User.FeedbackScore,
+        "UniquePositiveFeedbackCount": getUser.reply.User.UniquePositiveFeedbackCount,
+        "UniqueNegativeFeedbackCount": getUser.reply.User.UniqueNegativeFeedbackCount,
+        "AuthToken":user_token.access_token}
+        key = {"UserID": getUser.reply.User.UserID}
         # Insert the documents
-        collection_name.insert_one(sellerInfo)
-
-
-
-
+        collection_name.update_one(key,{"$set":sellerInfo},upsert=True)
 
 
         #getOrders
