@@ -99,6 +99,7 @@ def authAccepted(request):
 
 
 
+
         print(f"""
         _________________________
         UserID: {getUser.reply.User.UserID}
@@ -152,6 +153,7 @@ def authAccepted(request):
         "Order Count":getOrders.reply.ReturnedOrderCountActual,
         }
 
+        print(f"sellerInfo: {sellerInfo}")
 
         code = user_token.access_token.replace("#","PABLO_ROCKS")
         code = code.replace("/","ANA_ROCKS")
