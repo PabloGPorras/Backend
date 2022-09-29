@@ -59,7 +59,9 @@ def authAccepted(request):
         _________________________
         """)        
 
-
+        #getOrders
+        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
+        getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
         #getUser
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getUser = api.execute("GetUser", {})
@@ -68,14 +70,12 @@ def authAccepted(request):
         _________________________
         getUser.reply: {getUser.reply}
         UserID: {getUser.reply.User.UserID}
-        UserID: {getUser.reply.User.UserID}
         Email: {getUser.reply.User.Email}
         SellerInfo.SchedulingInfo.MaxScheduledItems: {getUser.reply.User.SellerInfo.SchedulingInfo.MaxScheduledItems}
         PositiveFeedbackPercent: {getUser.reply.User.PositiveFeedbackPercent}
         FeedbackScore: {getUser.reply.User.FeedbackScore}
         UniquePositiveFeedbackCount: {getUser.reply.User.UniquePositiveFeedbackCount}
         UniqueNegativeFeedbackCount: {getUser.reply.User.UniqueNegativeFeedbackCount}
-
         _________________________
         """)
 
@@ -88,7 +88,6 @@ def authAccepted(request):
         dbname = my_client["tea-party"]
         # Now get/create collection name (remember that you will see the database in your mongodb cluster only after you create a collection)
         collection_name = dbname["user-login"]
-
         sellerInfo ={
         "UserID": getUser.reply.User.UserID,
         "Email": getUser.reply.User.Email,
@@ -97,21 +96,14 @@ def authAccepted(request):
         "FeedbackScore": getUser.reply.User.FeedbackScore,
         "UniquePositiveFeedbackCount": getUser.reply.User.UniquePositiveFeedbackCount,
         "UniqueNegativeFeedbackCount": getUser.reply.User.UniqueNegativeFeedbackCount,
-        "AuthToken":user_token.access_token}
-
+        "AuthToken":user_token.access_token,
+        "Orders":getOrders.OrderArray,
+        "Order Count":getOrders.ReturnedOrderCountActual}
         key = {"UserID": getUser.reply.User.UserID}
-        
-
-        print(f'sellerInfo: {sellerInfo}')
-        print(f'key: {key}')
-        print('ABOUT TO CONNECT TO MONGO DB')
         # Insert the documents
         collection_name.update_one(key,{"$set":sellerInfo},upsert=True)
 
 
-        #getOrders
-        api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
-        getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
         print(f"""
         _________________________
         authAccepted getOrders: {getOrders.reply}
@@ -121,7 +113,7 @@ def authAccepted(request):
 
         code = user_token.access_token.replace("#","PABLO_ROCKS")
         code = code.replace("/","ANA_ROCKS")
-        response = redirect(f"https://tea-party.vercel.app?code={code}")
+        response = redirect(f"https://tea-party.vercel.app?code={sellerInfo}")
         return response
     except ConnectionError as e:
         print(e)
