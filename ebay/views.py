@@ -78,7 +78,7 @@ def authAccepted(request):
 
         _________________________
         """)
-        
+
         #MONGO DB CONNECTION
         username="ebay-django-db"
         password = "E8KiR0WoJ8IACyKe"
@@ -99,6 +99,8 @@ def authAccepted(request):
         "AuthToken":user_token.access_token}
         key = {"UserID": getUser.reply.User.UserID}
         # Insert the documents
+
+        print('ABOUT TO CONNECT TO MONGO DB')
         collection_name.update_one(key,{"$set":sellerInfo},upsert=True)
 
 
