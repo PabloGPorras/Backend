@@ -38,6 +38,7 @@ def index(request):
         print(e.response.dict())
 
 def authAccepted(request):
+    now = datetime.datetime.now()
     try:
         code = request.GET.get("code")
         print(f"""
