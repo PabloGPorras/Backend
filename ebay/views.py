@@ -99,7 +99,7 @@ def authAccepted(request):
         
         print(f"sellerInfo: {sellerInfo}")
         # Insert the documents
-        collection_name.insert_one(json.dumps(sellerInfo))
+        collection_name.insert_one(sellerInfo)
 
 
 
