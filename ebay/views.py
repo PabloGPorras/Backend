@@ -88,6 +88,7 @@ def authAccepted(request):
         dbname = my_client["tea-party"]
         # Now get/create collection name (remember that you will see the database in your mongodb cluster only after you create a collection)
         collection_name = dbname["user-login"]
+
         sellerInfo ={
         "UserID": getUser.reply.User.UserID,
         "Email": getUser.reply.User.Email,
@@ -97,12 +98,14 @@ def authAccepted(request):
         "UniquePositiveFeedbackCount": getUser.reply.User.UniquePositiveFeedbackCount,
         "UniqueNegativeFeedbackCount": getUser.reply.User.UniqueNegativeFeedbackCount,
         "AuthToken":user_token.access_token}
+
         key = {"UserID": getUser.reply.User.UserID}
-        # Insert the documents
+        
 
         print(f'sellerInfo: {sellerInfo}')
         print(f'key: {key}')
         print('ABOUT TO CONNECT TO MONGO DB')
+        # Insert the documents
         collection_name.update_one(key,{"$set":sellerInfo},upsert=True)
 
 
