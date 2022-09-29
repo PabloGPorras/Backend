@@ -64,7 +64,7 @@ def authAccepted(request):
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=user_token.access_token, config_file=None)
         getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
         print(f"getOrders.reply.OrderArray: {getOrders.reply.OrderArray}")
-        if getOrders.reply.OrderArray == 'None':
+        if getOrders.reply.OrderArray == 'None' or getOrders.reply.OrderArray == None:
             orders = "'None'"
         else:
             orders = getOrders.reply.OrderArray
