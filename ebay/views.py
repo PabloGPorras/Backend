@@ -100,6 +100,8 @@ def authAccepted(request):
         key = {"UserID": getUser.reply.User.UserID}
         # Insert the documents
 
+        print(f'sellerInfo: {sellerInfo}')
+        print(f'key: {key}')
         print('ABOUT TO CONNECT TO MONGO DB')
         collection_name.update_one(key,{"$set":sellerInfo},upsert=True)
 
