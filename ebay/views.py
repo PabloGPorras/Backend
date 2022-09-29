@@ -65,7 +65,7 @@ def authAccepted(request):
         getOrders = api.execute("GetOrders", {"NumberOfDays": 30})
         print(f"getOrders.reply.OrderArray: {getOrders.reply.OrderArray}")
         if getOrders.reply.OrderArray == 'None' or getOrders.reply.OrderArray == None:
-            orders = "'None'"
+            orders = 'None'
         else:
             orders = getOrders.reply.OrderArray
         print(f"getOrders: {getOrders.reply}")
