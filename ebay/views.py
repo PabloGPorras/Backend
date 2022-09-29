@@ -91,7 +91,6 @@ def getOrders(request,access_token,NumberOfDays):
         credentialu = credentialutil
         credentialu.load(app_config_path)
         credential = credentialu.get_credentials(environment.PRODUCTION)
-        print(f"getOrders access_token: {access_token[1:10]}")
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
         getOrders = api.execute("GetOrders", {"NumberOfDays": NumberOfDays})
         print(f"""
@@ -131,7 +130,6 @@ def getUser(request,access_token):
         credentialu = credentialutil
         credentialu.load(app_config_path)
         credential = credentialu.get_credentials(environment.PRODUCTION)
-        print(f"getUser access_token: {access_token[1:10]}")
         api = Trading(appid=credential.client_id, devid=credential.dev_id, certid=credential.client_secret, token=access_token, config_file=None)
         getUser = api.execute("GetUser", {})
         print(f"""
